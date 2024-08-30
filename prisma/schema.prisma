@@ -12,3 +12,26 @@ datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
+
+model Customer {
+  id  Int @id @default(autoincrement())
+  image String 
+  customerCode String
+  measureDateTime DateTime @default(now())
+  measureType String
+
+  measures Measure[]
+}
+
+model Measure {
+  id  Int @id @default(autoincrement())
+  customerCode String 
+  measureUUID Int
+  measureDateTime DateTime @default(now())
+  measureType String
+  hasConfirmed Boolean
+  imageURL String
+
+  customer Customer @relation(fields: [customerId], references: [id])
+  customerId Int
+}
